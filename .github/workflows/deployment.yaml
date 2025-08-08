@@ -1,3 +1,4 @@
+
 name: Manual Trigger
 
 on:
@@ -22,9 +23,14 @@ jobs:
   manual-approval-staging:
     needs: time-displayed
     runs-on: ubuntu-latest
-    environment: staging
+    environment:
+      name: staging
+      url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Await approval
+        run: echo "Review the diff above and approve this deployment from the 'Environments' page."
 
-   manual-approval-production:
+  manual-approval-production:
     needs: time-displayed
     runs-on: ubuntu-latest
     environment: 
