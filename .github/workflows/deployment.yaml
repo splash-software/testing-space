@@ -27,6 +27,13 @@ jobs:
         run: |
           echo "${{ steps.templating.outputs.plan_diff }}"
 
+      - name: Create comment
+        id: diff-comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-author: 'github-actions[bot]'
+          body: ${{ steps.template.outputs.result }}
+
       # - name: Render template
       #   id: template
       #   uses: chuhlomin/render-template@v1.4
