@@ -31,7 +31,8 @@ jobs:
         id: diff-comment
         uses: peter-evans/create-or-update-comment@v4
         with:
-          comment-id: 1
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
           body: ${{ steps.template.outputs.result }}
 
       # - name: Render template
