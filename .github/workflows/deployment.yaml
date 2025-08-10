@@ -18,25 +18,28 @@ jobs:
     steps:
       - name: Display current time
         run: |
-          echo "Here is the the current system time $(date)"
+          echo "dhani is the man" > temp.txt
+          cat "plan_diff=$(cat temp.txt)" >> $GITHUB_OUTPUT
 
-  manual-approval-staging:
-    needs: time-displayed
-    runs-on: ubuntu-latest
-    environment:
-      name: staging
-      url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    steps:
-      - name: Await approval
-        run: echo "Review the diff above and approve this deployment from the 'Environments' page."
 
-  manual-approval-production:
-    needs: time-displayed
-    runs-on: ubuntu-latest
-    environment: 
-      name: production
-      url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    steps:
-      - name: Await approval
-        run: echo "Review the diff above and approve this deployment from the 'Environments' page."
+      - name: Show Variable
+        run: |
+          echo "${{ steps.my_step.outputs.my_variable }}"
+
+      # - name: Render template
+      #   id: template
+      #   uses: chuhlomin/render-template@v1.4
+      #   with:
+      #     template: .github/comment-template.md
+      #     vars: |
+      #       foo: ${{ steps.my_step.outputs.my_variable }}
+      #       bar: that
+    
+      # - name: Create comment
+      #   uses: peter-evans/create-or-update-comment@v4
+      #   with:
+      #     issue-number: 1
+      #     body: ${{ steps.template.outputs.result }}
+
+
     
