@@ -13,6 +13,10 @@ on:
           - staging
           - production
 
+permissions:
+  pull-requests: write
+  issues: write
+
 jobs:
   time-displayed:
     runs-on: ubuntu-latest
