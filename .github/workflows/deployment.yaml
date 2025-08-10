@@ -31,7 +31,6 @@ jobs:
         id: diff-comment
         uses: peter-evans/create-or-update-comment@v4
         with:
-          comment-author: 'github-actions[bot]'
           comment-id: ${{ github.event.comment.id }}
           body: ${{ steps.template.outputs.result }}
 
