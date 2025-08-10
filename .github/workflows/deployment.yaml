@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Display current time
+        id: templating
         run: |
           echo "dhani is the man" > temp.txt
           echo "plan_diff=$(cat temp.txt)" >> $GITHUB_OUTPUT
@@ -24,7 +25,7 @@ jobs:
 
       - name: Show Variable
         run: |
-          echo "${{ steps.my_step.outputs.my_variable }}"
+          echo "${{ steps.templating.outputs.plan_diff }}"
 
       # - name: Render template
       #   id: template
