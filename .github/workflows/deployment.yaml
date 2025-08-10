@@ -19,7 +19,7 @@ jobs:
       - name: Display current time
         run: |
           echo "dhani is the man" > temp.txt
-          cat "plan_diff=$(cat temp.txt)" >> $GITHUB_OUTPUT
+          echo "plan_diff=$(cat temp.txt)" >> $GITHUB_OUTPUT
 
 
       - name: Show Variable
