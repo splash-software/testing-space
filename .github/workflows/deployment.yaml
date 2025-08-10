@@ -39,7 +39,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           edit-mode: replace
           body: This is my body hottie
-          # body: ${{ steps.templating.outputs.result }}
+          # body: ${{ steps.templating.outputs.plan_diff }}
 
       # - name: Render template
       #   id: template
