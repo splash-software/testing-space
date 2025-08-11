@@ -13,42 +13,43 @@ on:
           - staging
           - production
 
+permissions:
+  pull-requests: write
+  issues: write
+
 jobs:
   time-displayed:
     runs-on: ubuntu-latest
     steps:
-      - name: Display current time
+      - name: Storing template to display
         id: templating
         run: |
-          echo "dhani is the man" > temp.txt
+          echo "Here is my testing comment content" > temp.txt
           echo "plan_diff=$(cat temp.txt)" >> $GITHUB_OUTPUT
-
 
       - name: Show Variable
         run: |
           echo "${{ steps.templating.outputs.plan_diff }}"
 
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: existing-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Build output
+      
       - name: Create comment
         id: diff-comment
         uses: peter-evans/create-or-update-comment@v4
         with:
-          comment-id: 1
-          body: ${{ steps.template.outputs.result }}
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-id: ${{ github.existing-comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |
+            Build output
+            ${{ steps.templating.outputs.plan_diff }}
 
-      # - name: Render template
-      #   id: template
-      #   uses: chuhlomin/render-template@v1.4
-      #   with:
-      #     template: .github/comment-template.md
-      #     vars: |
-      #       foo: ${{ steps.my_step.outputs.my_variable }}
-      #       bar: that
-    
-      # - name: Create comment
-      #   uses: peter-evans/create-or-update-comment@v4
-      #   with:
-      #     issue-number: 1
-      #     body: ${{ steps.template.outputs.result }}
 
 
     
