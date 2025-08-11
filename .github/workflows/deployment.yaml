@@ -19,6 +19,7 @@ permissions:
 
 jobs:
   time-displayed:
+    environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - name: Storing template to display
