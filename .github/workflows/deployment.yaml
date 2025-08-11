@@ -21,10 +21,10 @@ jobs:
   time-displayed:
     runs-on: ubuntu-latest
     steps:
-      - name: Display current time
+      - name: Storing template to display
         id: templating
         run: |
-          echo "dhani is the man" > temp.txt
+          echo "Here is my testing comment content" > temp.txt
           echo "plan_diff=$(cat temp.txt)" >> $GITHUB_OUTPUT
 
       - name: Show Variable
@@ -46,22 +46,10 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           comment-id: ${{ github.existing-comment.outputs.comment-id }}
           edit-mode: replace
-          body: ${{ steps.templating.outputs.plan_diff }}
+          body: |
+            Build output
+            ${{ steps.templating.outputs.plan_diff }}
 
-      # - name: Render template
-      #   id: template
-      #   uses: chuhlomin/render-template@v1.4
-      #   with:
-      #     template: .github/comment-template.md
-      #     vars: |
-      #       foo: ${{ steps.my_step.outputs.my_variable }}
-      #       bar: that
-    
-      # - name: Create comment
-      #   uses: peter-evans/create-or-update-comment@v4
-      #   with:
-      #     issue-number: 1
-      #     body: ${{ steps.template.outputs.result }}
 
 
     
