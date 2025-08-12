@@ -38,7 +38,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         uses: danger/danger-js@13.0.4
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
 
       - name: Create Deployment
         uses: actions/github-script@v3
