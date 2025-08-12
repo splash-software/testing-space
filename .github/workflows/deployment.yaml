@@ -34,11 +34,19 @@ jobs:
         run: |
           echo "${{ steps.templating.outputs.plan_diff }}"
 
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ 1767653 }}
+          private-key: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+
       - name: Danger
         if: ${{ github.event_name == 'pull_request' }}
         uses: danger/danger-js@13.0.4
         env:
-          GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+          # GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+          GITHUB_TOKEN: ${{ ${{ steps.generate-token.outputs.token }} }}
 
       - name: Create Deployment
         uses: actions/github-script@v3
