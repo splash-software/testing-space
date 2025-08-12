@@ -23,6 +23,9 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
       - name: Storing template to display
         id: templating
         run: |
@@ -35,8 +38,6 @@ jobs:
 
       - name: Danger
         uses: danger/danger-js@13.0.4
-        with:
-          args: "--dangerfile ./dangerfile.js"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
