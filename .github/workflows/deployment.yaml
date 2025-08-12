@@ -38,6 +38,7 @@ jobs:
 
       - name: Danger
         uses: danger/danger-js@13.0.4
+         if: ${{ github.event_name == 'pull_request' }}
         with: 
           args: "--dangerfile artsy/peril-settings/org/allPRs.ts"
         env:
