@@ -40,33 +40,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           env: ${{ github.event.inputs.environment }}
 
-      - name: Create Deployment
-        uses: actions/github-script@v3
-        id: create-deployment
-        with:
-          script: |
-            const deployment = await github.repos.createDeployment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: context.sha,
-              environment: 'staging',
-              required_contexts: []
-            });
-            return deployment.data.id;
-
-      - name: Update Deployment Status
-        uses: actions/github-script@v3
-        with:
-          script: |
-            github.repos.createDeploymentStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              deployment_id: ${{ steps.create-deployment.outputs.result }},
-              state: 'success',
-              environment: '${{ github.event.inputs.environment }}',
-              description: 'Deployment to ${{ github.event.inputs.environment }} succeeded'
-            })
-
       - name: update deployment status
         uses: bobheadxi/deployments@v1
         if: always()
