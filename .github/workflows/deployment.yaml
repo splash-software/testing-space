@@ -2,6 +2,7 @@
 name: Manual Trigger
 
 on:
+  push:
   pull_request:
   workflow_dispatch:
     inputs:
@@ -31,26 +32,6 @@ jobs:
       - name: Show Variable
         run: |
           echo "${{ steps.templating.outputs.plan_diff }}"
-
-      - name: Find Comment
-        uses: peter-evans/find-comment@v3
-        id: existing-comment
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: Build output
-      
-      - name: Create comment
-        id: diff-comment
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-id: ${{ github.existing-comment.outputs.comment-id }}
-          edit-mode: replace
-          body: |
-            Build output
-            ${{ steps.templating.outputs.plan_diff }}
-
 
       - name: Danger
         uses: danger/danger-js@13.0.4
