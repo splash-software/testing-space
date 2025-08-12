@@ -32,6 +32,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
 
+      - name: start deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: ${{ github.event.inputs.environment }}
+
       - name: Create Deployment
         uses: actions/github-script@v3
         id: create-deployment
@@ -58,3 +66,13 @@ jobs:
               environment: '${{ github.event.inputs.environment }}',
               description: 'Deployment to ${{ github.event.inputs.environment }} succeeded'
             })
+
+      - name: update deployment status
+        uses: bobheadxi/deployments@v1
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          env: ${{ steps.deployment.outputs.env }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
