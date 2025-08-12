@@ -40,12 +40,17 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           env: ${{ github.event.inputs.environment }}
 
+      - name: Create Output
+        id: deploy-output
+        run: echo "deploy_output=crazy" >> $GITHUB_OUTPUT
+
       - name: update deployment status
         uses: bobheadxi/deployments@v1
         if: always()
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
+          status: ${{ steps.deploy-output.outputs.deploy_output }}
           env: ${{ steps.deployment.outputs.env }}
+          env_url: https://dhanimay.com
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
