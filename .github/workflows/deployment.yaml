@@ -52,5 +52,14 @@ jobs:
             ${{ steps.templating.outputs.plan_diff }}
 
 
+      - name: Danger
+        # Check for the latest version
+        uses: danger/danger-js@13.0.4
+        with:
+          args: ""
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
 
     
