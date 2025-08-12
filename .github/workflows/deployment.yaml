@@ -53,13 +53,23 @@ jobs:
 
 
       - name: Danger
-        # Check for the latest version
         uses: danger/danger-js@13.0.4
         with:
-          args: ""
+          args: "--dangerfile ./dangerfile.js"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
-
+      - name: Update Deployment Status
+        uses: actions/github-script@v3
+        with:
+          script: |
+            github.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: ${{ github.event.deployment.id }},
+              state: 'success',
+              environment: 'staging',
+              description: 'Deployment to staging succeeded'
+            })
     
