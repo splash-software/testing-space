@@ -41,7 +41,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: context.sha,
-              environment: '${{ github.event.inputs.environment }}',
+              environment: 'staging',
               required_contexts: []
             });
             return deployment.data.id;
