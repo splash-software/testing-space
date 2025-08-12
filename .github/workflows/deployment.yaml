@@ -17,6 +17,7 @@ permissions:
   issues: write
   contents: write
   actions: write
+  deployments: write
 
 jobs:
   time-displayed:
