@@ -50,7 +50,7 @@ jobs:
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ steps.deploy-output.outputs.deploy_output }}
+          status: ${{ job.status }}
           env: ${{ steps.deployment.outputs.env }}
           env_url: https://dhanimay.com
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
