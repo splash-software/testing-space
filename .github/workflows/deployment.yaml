@@ -1,4 +1,3 @@
-
 name: Manual Trigger
 
 on:
@@ -10,7 +9,7 @@ on:
         required: true
         default: 'staging'
         type: choice
-        options: 
+        options:
           - staging
           - production
 
@@ -20,12 +19,11 @@ permissions:
 
 jobs:
   time-displayed:
-    environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Storing template to display
         id: templating
         run: |
@@ -37,13 +35,26 @@ jobs:
           echo "${{ steps.templating.outputs.plan_diff }}"
 
       - name: Danger
+        if: ${{ github.event_name == 'pull_request' }}
         uses: danger/danger-js@13.0.4
-         if: ${{ github.event_name == 'pull_request' }}
-        with: 
+        with:
           args: "--dangerfile artsy/peril-settings/org/allPRs.ts"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create Deployment
+        uses: actions/github-script@v3
+        id: create-deployment
+        with:
+          script: |
+            const deployment = await github.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: '${{ github.event.inputs.environment }}',
+              required_contexts: []
+            });
+            return deployment.data.id;
 
       - name: Update Deployment Status
         uses: actions/github-script@v3
@@ -52,9 +63,8 @@ jobs:
             github.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              deployment_id: ${{ github.event.deployment.id }},
+              deployment_id: ${{ steps.create-deployment.outputs.result }},
               state: 'success',
-              environment: 'staging',
-              description: 'Deployment to staging succeeded'
+              environment: '${{ github.event.inputs.environment }}',
+              description: 'Deployment to ${{ github.event.inputs.environment }} succeeded'
             })
-    
