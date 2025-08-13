@@ -4,6 +4,9 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
+      source_branch:
+        description: "Branch to deploy"
+        required: true
       environment:
         required: true
         default: 'staging'
