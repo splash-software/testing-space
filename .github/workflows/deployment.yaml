@@ -20,13 +20,7 @@ jobs:
       - name: Danger
         id: temp
         run: |
-          `+ "ssm:GetParameter",
-          + "ssm:GetParameters",
-          + "ssm:GetParametersByPath",
-          + "ssm:DescribeParameters",
-          + "kms:Encrypt",
-          + "kms:Decrypt",
-          + "kms:GenerateDataKey*",` >> global-diff.txt
+          `+ "ssm:GetParameter", \n + "ssm:GetParameters", \n + "ssm:GetParametersByPath", \n+ "ssm:DescribeParameters", \n+ "kms:Encrypt", \n+ "kms:Decrypt", \n+ "kms:GenerateDataKey*",` >> global-diff.txt
           echo 'global_diff<<EOF' >> $GITHUB_OUTPUT
           cat global-diff.txt >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
