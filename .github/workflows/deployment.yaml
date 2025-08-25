@@ -2,20 +2,6 @@ name: Manual Trigger
 
 on:
   pull_request:
-  workflow_dispatch:
-    inputs:
-      source_branch:
-        description: "Branch to deploy"
-        required: true
-        type: string
-        default: main
-      environment:
-        required: true
-        default: 'staging'
-        type: choice
-        options:
-          - staging
-          - production
 
 permissions:
   pull-requests: write
@@ -32,30 +18,19 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Danger
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: danger/danger-js@13.0.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
-
-      - name: start deployment
-        uses: bobheadxi/deployments@v1
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: ${{ github.event.inputs.environment }}
-
-      - name: Create Output
-        id: deploy-output
-        run: echo "deploy_output=crazy" >> $GITHUB_OUTPUT
-
-      - name: update deployment status
-        uses: bobheadxi/deployments@v1
-        if: always()
-        with:
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          env: ${{ steps.deployment.outputs.env }}
-          env_url: https://dhanimay.com
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+        id: temp
+        run: |
+          `+ "ssm:GetParameter",
+          + "ssm:GetParameters",
+          + "ssm:GetParametersByPath",
+          + "ssm:DescribeParameters",
+          + "kms:Encrypt",
+          + "kms:Decrypt",
+          + "kms:GenerateDataKey*",` >> global-diff.txt
+          echo 'global_diff<<EOF' >> $GITHUB_OUTPUT
+          cat global-diff.txt >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
+      - name: Printer
+        run: |
+          ehco "new step, but printing ${github.steps.outputs.temp.global_diff}"
+      
