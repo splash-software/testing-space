@@ -26,5 +26,5 @@ jobs:
           echo 'EOF' >> $GITHUB_OUTPUT
       - name: Printer
         run: |
-          ehco "new step, but printing ${github.steps.outputs.temp.global_diff}"
+          ehco "new step, but printing $(github.steps.outputs.temp.global_diff)"
       
