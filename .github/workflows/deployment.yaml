@@ -34,5 +34,5 @@ jobs:
     steps:
       - name: Printer
         run: |
-          echo "new step, but printing ${{needs.temp.outputs.global_diff}}"
+          echo "new step, but printing ${{needs.temp.outputs.global-diff}}"
       
