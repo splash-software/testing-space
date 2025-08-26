@@ -34,5 +34,5 @@ jobs:
     steps:
       - name: Printer
         run: |
-          ehco "new step, but printing ${needs.temp.outputs.global_diff}"
+          ehco "new step, but printing ${{needs.temp.outputs.global_diff}}"
       
