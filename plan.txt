@@ -1,0 +1,72 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+ [36m<=[0m read (data resources)[0m
+
+Terraform will perform the following actions:
+
+[1m  # data.aws_ecr_authorization_token.api-main_auth_5AD5A5FD[0m will be read during apply
+  # (config refers to values not yet known)
+[0m [36m<=[0m[0m data "aws_ecr_authorization_token" "api-main_auth_5AD5A5FD" {
+      [32m+[0m[0m authorization_token = (sensitive value)
+      [32m+[0m[0m expires_at          = (known after apply)
+      [32m+[0m[0m id                  = (known after apply)
+      [32m+[0m[0m password            = (sensitive value)
+      [32m+[0m[0m proxy_endpoint      = (known after apply)
+      [32m+[0m[0m region              = (known after apply)
+      [32m+[0m[0m registry_id         = (known after apply)
+      [32m+[0m[0m user_name           = (known after apply)
+    }
+
+[1m  # data.aws_ecr_image.api-main_production-latest-image_83E5D2D4[0m will be read during apply
+  # (depends on a resource or a module with changes pending)
+[0m [36m<=[0m[0m data "aws_ecr_image" "api-main_production-latest-image_83E5D2D4" {
+      [32m+[0m[0m id                  = (known after apply)
+      [32m+[0m[0m image_digest        = (known after apply)
+      [32m+[0m[0m image_pushed_at     = (known after apply)
+      [32m+[0m[0m image_size_in_bytes = (known after apply)
+      [32m+[0m[0m image_tag           = "production-latest"
+      [32m+[0m[0m image_tags          = (known after apply)
+      [32m+[0m[0m image_uri           = (known after apply)
+      [32m+[0m[0m region              = (known after apply)
+      [32m+[0m[0m registry_id         = (known after apply)
+      [32m+[0m[0m repository_name     = "api-main"
+    }
+
+[1m  # data.aws_ecr_image.api-main_staging-latest-image_47D5BA16[0m will be read during apply
+  # (depends on a resource or a module with changes pending)
+[0m [36m<=[0m[0m data "aws_ecr_image" "api-main_staging-latest-image_47D5BA16" {
+      [32m+[0m[0m id                  = (known after apply)
+      [32m+[0m[0m image_digest        = (known after apply)
+      [32m+[0m[0m image_pushed_at     = (known after apply)
+      [32m+[0m[0m image_size_in_bytes = (known after apply)
+      [32m+[0m[0m image_tag           = "staging-latest"
+      [32m+[0m[0m image_tags          = (known after apply)
+      [32m+[0m[0m image_uri           = (known after apply)
+      [32m+[0m[0m region              = (known after apply)
+      [32m+[0m[0m registry_id         = (known after apply)
+      [32m+[0m[0m repository_name     = "api-main"
+    }
+
+[1m  # aws_ecr_repository.api-main_ecr_AC0FDB7F[0m will be created
+[0m  [32m+[0m[0m resource "aws_ecr_repository" "api-main_ecr_AC0FDB7F" {
+      [32m+[0m[0m arn                  = (known after apply)
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m image_tag_mutability = "MUTABLE"
+      [32m+[0m[0m name                 = "api-main"
+      [32m+[0m[0m region               = "us-east-1"
+      [32m+[0m[0m registry_id          = (known after apply)
+      [32m+[0m[0m repository_url       = (known after apply)
+      [32m+[0m[0m tags                 = {
+          [32m+[0m[0m "Application" = "api-main"
+        }
+      [32m+[0m[0m tags_all             = {
+          [32m+[0m[0m "Application" = "api-main"
+        }
+    }
+
+[1mPlan:[0m 1 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m cross-stack-output-aws_ecr_repositoryapi-main_ecr_AC0FDB7Frepository_url = (sensitive value)
