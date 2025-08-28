@@ -39,11 +39,10 @@ jobs:
   staging-print:
     needs: [check, global-print]
     runs-on: ubuntu-latest
-    if: always() && ${{
+    if: always() &&
           needs.check.outputs.staging-infra-updates == 'true' &&
           github.ref_name == 'staging' &&
           (needs.check.outputs.global-infra-updates == 'false' || needs.global-print.result == 'success')
-        }}
     steps:
       - name: print ref name
         run: echo "${{ github.ref_name }}"
