@@ -9,8 +9,8 @@ jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
-      global-infra-updates: ${{ steps.outputs.global-infra-updates }}
-      staging-infra-updates: ${{ steps.outputs.staging-infra-updates }}
+      global-infra-updates: ${{ steps.prime.outputs.global-infra-updates }}
+      staging-infra-updates: ${{ steps.prime.outputs.staging-infra-updates }}
     steps:
       - name: printing Ref nme
         run: |
