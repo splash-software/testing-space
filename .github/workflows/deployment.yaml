@@ -1,4 +1,4 @@
-name: Manual Trigger
+name: PUll REQUEST
 
 on:
   pull_request:
