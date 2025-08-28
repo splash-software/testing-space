@@ -25,7 +25,7 @@ jobs:
       - name: print outputs
         run: |
           echo "global-infra-updates ${{ steps.prime.outputs.global-infra-updates }} && condition  ${{ steps.prime.outputs.global-infra-updates  == 'false' }}"
-          echo "staging-infra-updates ${{ steps.prime.outputs.staging-infra-updates }} && condition  ${{ steps.prime.outputs.global-infra-updates == 'true' }}"
+          echo "staging-infra-updates ${{ steps.prime.outputs.staging-infra-updates }} && condition  ${{ steps.prime.outputs.staging-infra-updates == 'true' }}"
 
   global-print:
     runs-on: ubuntu-latest
