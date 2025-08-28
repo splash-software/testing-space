@@ -10,32 +10,24 @@ permissions:
   actions: write
   deployments: write
 
+env:
+  display-result: 'true'
+
 jobs:
-  set-up-outputs:
+  job-1:
     runs-on: ubuntu-latest
-    outputs:
-      global-diff: ${{ steps.temp.outputs.global_diff }}
+    if: false
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        run: echo "Job 1 just ran!"
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.12.2
-
-      - name: Danger
-        id: temp
-        run: |
-          terraform show plan > global-diff.txt
-          echo 'global_diff<<EOF' >> $GITHUB_OUTPUT
-          cat global-diff.txt >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+      
   display:
     runs-on: ubuntu-latest
-    needs: set-up-outputs
+    needs: job-1
+    if: always() && ${{ env.dispaly-result == 'true' }} 
     steps:
       - name: Printer
         run: |
-          echo "new step, but printing ${{needs.set-up-outputs.outputs.global-diff}}"
+          echo "new step, but printing ${{ github.ref_name }}"
       
