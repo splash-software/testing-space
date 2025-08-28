@@ -1,0 +1,11 @@
+name: Manual Trigger
+
+on:
+  workflow_dispatch:
+
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print ref name
+        run: echo "${{ github.ref_name }}
