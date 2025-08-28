@@ -12,14 +12,20 @@ jobs:
       global-infra-updates: ${{ steps.outputs.global-infra-updates }}
       staging-infra-updates: ${{ steps.outputs.staging-infra-updates }}
     steps:
-      - name: printing vars
+      - name: printing Ref nme
         run: |
-          echo "${{ github.ref_name }}"
+          echo "The ref_name ==> ${{ github.ref_name }}"
 
       - name: outputs
+        id: prime
         run: |
           echo "global-infra-updates=false" >> $GITHUB_OUTPUT
           echo "staging-infra-updates=true" >> $GITHUB_OUTPUT
+
+      - name: print outputs
+        run: |
+          echo "global-infra-updates ${{ steps.prime.outputs.global-infra-updates }} && condition  ${{ steps.prime.outputs.global-infra-updates  == 'false' }}"
+          echo "staging-infra-updates ${{ steps.prime.outputs.staging-infra-updates }} && condition  ${{ steps.prime.outputs.global-infra-updates == 'true' }}"
 
   global-print:
     runs-on: ubuntu-latest
