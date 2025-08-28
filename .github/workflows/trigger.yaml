@@ -37,7 +37,7 @@ jobs:
           echo "just to see if global is running"
   
   staging-print:
-    needs: global-print
+    needs: [global-print, check]
     runs-on: ubuntu-latest
     if: always() && ${{
           needs.check.outputs.staging-infra-updates == 'true' &&
