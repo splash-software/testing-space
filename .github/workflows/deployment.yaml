@@ -10,27 +10,24 @@ permissions:
   actions: write
   deployments: write
 
+env:
+  display-result: 'true'
+
 jobs:
-  time-displayed:
+  job-1:
     runs-on: ubuntu-latest
+    if: false
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        run: echo "Job 1 just ran!"
 
-      - name: Danger
-        id: temp
-        run: |
-          `+ "ssm:GetParameter",
-          + "ssm:GetParameters",
-          + "ssm:GetParametersByPath",
-          + "ssm:DescribeParameters",
-          + "kms:Encrypt",
-          + "kms:Decrypt",
-          + "kms:GenerateDataKey*",` >> global-diff.txt
-          echo 'global_diff<<EOF' >> $GITHUB_OUTPUT
-          cat global-diff.txt >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+      
+  display:
+    runs-on: ubuntu-latest
+    needs: job-1
+    if: always() && ${{ env.dispaly-result == 'true' }} 
+    steps:
       - name: Printer
         run: |
-          ehco "new step, but printing ${github.steps.outputs.temp.global_diff}"
+          echo "new step, but printing ${{ github.ref_name }}"
       
