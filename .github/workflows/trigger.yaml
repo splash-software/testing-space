@@ -12,6 +12,10 @@ jobs:
       global-infra-updates: ${{ steps.outputs.global-infra-updates }}
       staging-infra-updates: ${{ steps.outputs.staging-infra-updates }}
     steps:
+      - name: printing vars
+        run: |
+          echo "${{ github.ref_name }}"
+
       - name: outputs
         run: |
           echo "global-infra-updates=false" >> $GITHUB_OUTPUT
@@ -20,7 +24,7 @@ jobs:
   global-print:
     runs-on: ubuntu-latest
     needs: check
-    if: ${{ needs.check.outputs.global-infra-updates == 'tru' }}
+    if: ${{ needs.check.outputs.global-infra-updates == 'true' }}
     steps:
       - name: global print
         run: |
