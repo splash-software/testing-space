@@ -10,8 +10,6 @@ permissions:
   actions: write
   deployments: write
 
-env:
-  RESULT: 'true'
 
 jobs:
   job-1:
@@ -25,7 +23,7 @@ jobs:
   display:
     runs-on: ubuntu-latest
     needs: job-1
-    if: always() && ${{ env.RESULT == 'true' }} 
+    if: always() && ${{ secrets.RESULT == 'true' }} 
     steps:
       - name: Printer
         run: |
