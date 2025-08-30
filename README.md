@@ -7,3 +7,8 @@ test 3 global=false staging=true -> Added print github.ref_name
 test 4 global=false staging=true -> add more printed conditions
 
 
+/// New Test - Deploy Logs Branch
+
+test 1 - workflow_call
+
+
