@@ -50,7 +50,7 @@ jobs:
           commit_author="${{ inputs.commit_author }}"
           commit_message="${{ inputs.commit_message }}"
           trigger="${{ inputs.trigger }}"
-          export timestamp commit_sha author message trigger
+          export deploy_timestamp commit_sha commit_author commit_message trigger
           (envsubst < templates/deploy-record.template.txt) >> ${{ env.log_file }}
 
       - name: Codegen deployment markdown tables
