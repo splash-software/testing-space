@@ -48,7 +48,7 @@ jobs:
     with:
       environment: testing-splash
       context: api
-      commit_sha: ${{ needs.setup_deploy.outputs.commit_sha
+      commit_sha: ${{ needs.setup_deploy.outputs.commit_sha }}
       commit_author: ${{ github.actor }}
       commit_message: ${{ needs.setup_deploy.outputs.commit_message }}
       trigger: push
