@@ -36,6 +36,9 @@ jobs:
       commit_message: ${{ steps.init.outputs.commit_message }}
       
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+    
       - name: set-up outputs
         id: init
         run: |
