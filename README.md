@@ -7,3 +7,7 @@ test 3 global=false staging=true -> Added print github.ref_name
 test 4 global=false staging=true -> add more printed conditions
 
 
+///// New Test - Deploys
+
+test 1 on pull request
+
