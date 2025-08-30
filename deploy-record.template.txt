@@ -1,0 +1,1 @@
+{ "timestamp": "$deploy_timestamp", "commit_sha": "$commit_sha", "author": "$commit_author", "message": "$commit_message", "trigger": "$trigger" }
