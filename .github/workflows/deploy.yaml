@@ -43,6 +43,10 @@ jobs:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           ref: deploy-logs
 
+      - name: Code Check
+        run: |
+          echo "checking in --------------------------------------------->"
+
       - name: Append content to file
         run: |
           deploy_timestamp=$(date -u)
