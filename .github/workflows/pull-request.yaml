@@ -47,7 +47,10 @@ jobs:
           echo "$message" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
           echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-          echo "$commit_sha"
+          
+      - name: printing variables
+        run: |
+          echo "${{ steps.init.outputs.commit_sha }}"
 
   call_workflow:
     uses: ./.github/workflows/deploy.yaml
