@@ -1,0 +1,79 @@
+name: Log Deployment Changes
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: Environment being logged
+        type: string
+        required: true
+      context:
+        description: Type of deployment(api|infra)
+        type: string
+        required: true
+      commit_sha:
+        type: string
+        required: true
+      commit_author:
+        type: string
+        required: true
+      commit_message:
+        type: string
+        required: true
+      trigger:
+        description: How the workflow was activated(push|manual)
+        type: string
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  log_file: ${{ inputs.environment }}.${{ inputs.context }}.jsonl
+  md_file: ${{ inputs.environment }}.${{ inputs.context }}.md
+  repo: https://github.com/Org/backend/commit/
+
+jobs:
+  append-to-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+          ref: deploy-logs
+
+      - name: Append content to file
+        run: |
+          deploy_timestamp=$(date -u)
+          commit_sha=${{ inputs.commit_sha }}
+          commit_author=${{ inputs.commit_author }}
+          commit_message=${{ inputs.commit_message }}
+          trigger=${{ inputs.trigger }}
+          export deploy_timestamp commit_sha commit_author commit_message trigger
+          (envsubst < templates/deploy-record.template.txt; echo) >> ${{ env.log_file }}
+
+      - name: Codegen deployment markdown tables
+        run: |
+          json_records=$(jq -r --arg repo "$repo" '[
+            .deploy_timestamp,
+            .commit_sha,
+            "\($repo)\(.commit_sha)",
+            .commit_author,
+            .commit_message,
+            .trigger
+          ] | "| " + (join(" | ")) + " |"' "$log_file")
+          {
+            cat templates/deploy-table.template.txt
+            echo
+            echo "$json_records"
+          } > "${{ env.md_file }}"
+
+      - name: Commit Changes
+        run: |
+          git add ${{ env.log_file }}
+          git add ${{ env.md_file }}
+          git commit -F- <<EOF
+          ${{ inputs.commit_message }}
+          EOF
+          git push origin HEAD
