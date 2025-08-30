@@ -1,0 +1,57 @@
+name: Call Deployment on Pull Request
+
+on:
+  pull_request:
+    # inputs:
+    #   environment:
+    #     description: Environment being logged
+    #     type: string
+    #     required: true
+    #   context:
+    #     description: Type of deployment(api|infra)
+    #     type: string
+    #     required: true
+    #   commit_sha:
+    #     type: string
+    #     required: true
+    #   commit_author:
+    #     type: string
+    #     required: true
+    #   commit_message:
+    #     type: string
+    #     required: true
+    #   trigger:
+    #     description: How the workflow was activated(push|manual)
+    #     type: string
+    #     required: true
+
+jobs:
+  setup_deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      commit_sha: ${{ steps.init.outputs.commit_sha }}
+      commit_message: ${{ steps.init.outputs.commit_message }}
+      
+    steps:
+      - name: set-up outputs
+        id: init
+        run: |
+          message=$(git log -1 --no-merges --pretty=%B)
+          echo "commit_message<<EOF" >> $GITHUB_OUTPUT
+          echo "$message" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+  call_workflow:
+    uses: ./.github/workflows/deploy.yaml
+    needs: setup_deploy
+    with:
+      environment: testing-splash
+      context: api
+      commit_sha: ${{ needs.setup_deploy.outputs.commit_sha
+      commit_author: ${{ github.actor }}
+      commit_message: ${{ needs.setup_deploy.outputs.commit_message }}
+      trigger: push
+      
+
+      
