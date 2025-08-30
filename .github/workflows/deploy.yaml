@@ -52,10 +52,10 @@ jobs:
           echo "before deploy ************"
           deploy_timestamp=$(date -u)
           echo "before inputs ************"
-          commit_sha=${{ inputs.commit_sha }}
-          commit_author=${{ inputs.commit_author }}
-          commit_message=${{ inputs.commit_message }}
-          trigger=${{ inputs.trigger }}
+          commit_sha="${{ inputs.commit_sha }}"
+          commit_author="${{ inputs.commit_author }}"
+          commit_message="${{ inputs.commit_message }}"
+          trigger="${{ inputs.trigger }}"
           echo "before export ************"
           export deploy_timestamp commit_sha commit_author commit_message trigger
           (envsubst < templates/deploy-record.template.txt; echo) >> ${{ env.log_file }}
