@@ -56,7 +56,7 @@ jobs:
       - name: Codegen deployment markdown tables
         run: |
           json_records=$(jq -r --arg repo "$repo" '[
-            .deploy_timestamp,
+            .timestamp,
             .commit_sha,
             "\($repo)\(.commit_sha)",
             .author,
