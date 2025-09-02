@@ -48,7 +48,6 @@ jobs:
           deploy_timestamp="$(date -u)"
           commit_sha="${{ inputs.commit_sha }}"
           commit_author="${{ inputs.commit_author }}"
-          # commit_message="${{ inputs.commit_message }}"
           commit_message=$(printf '%s' "${{ inputs.commit_message }}" | jq -Rs . | sed 's/^"//; s/"$//')
           trigger="${{ inputs.trigger }}"
           export deploy_timestamp commit_sha commit_author commit_message trigger
